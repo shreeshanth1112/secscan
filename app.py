@@ -13,7 +13,7 @@ CHECKS = {
 }
 
 PAGE = """
-<h1>🛡️ SecScan v1</h1>
+<h1>🛡️ SecScan v2</h1>
 <form><input name="url" placeholder="example.com" size="40"><button>Scan</button></form>
 {% if res %}
   <h2>{{ res.url }}: {{ res.score }}/{{ res.total }}</h2>
