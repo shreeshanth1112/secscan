@@ -1,5 +1,6 @@
 pipeline {
   agent any
+  triggers { pollSCM('* * * * *') }
   environment {
     DH_USER  = "shreeshanth265"
     IMAGE    = "docker.io/${DH_USER}/secscan"
@@ -20,6 +21,14 @@ pipeline {
           podman tag $IMAGE:$TAG $IMAGE:latest
           podman push $IMAGE:$TAG
           podman push $IMAGE:latest
+        '''
+      }
+    }
+    stage('Deploy to Kubernetes') {
+      steps {
+        sh '''
+          kubectl set image deployment/secscan secscan=$IMAGE:$TAG
+          kubectl rollout status deployment/secscan --timeout=120s
         '''
       }
     }
